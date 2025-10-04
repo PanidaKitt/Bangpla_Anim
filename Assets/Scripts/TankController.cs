@@ -17,7 +17,10 @@ public class TankController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tubeAnim = tube.GetComponent<Animator>();
+        if(tube){
+            tubeAnim = tube.GetComponent<Animator>();
+        }
+        
         if(water){
             waterAnim = water.GetComponent<Animator>();
         }
@@ -57,17 +60,24 @@ public class TankController : MonoBehaviour
         char firstChar = id[0];
         Debug.Log("firstChar"+ firstChar);
 
-        if(firstChar != '0'){
+        if(firstChar != '0' && 
+        ((tubeAnim.GetBool("isTubeOn") && !pumps.Any(a => a.GetPumpStatus())) || (!tubeAnim.GetBool("isTubeOn") && pumps.Any(a => a.GetPumpStatus())))){
             Animator pumpAnim = pump.GetPumpAnimator();
 
             Debug.Log("pumpAnim", pumpAnim);
             string animName = tubeAnim.GetBool("isTubeOn")? "Pump_Off":"Pump_On";
             Debug.Log("animName"+ animName);
+
+            bool hasEntered = false;
             yield return new WaitUntil(() =>
             {
-                Debug.Log("wait");
                 AnimatorStateInfo state = pumpAnim.GetCurrentAnimatorStateInfo(0);
-                return state.IsName(animName) && state.normalizedTime >= 1f;
+                if (state.IsName(animName))
+                {
+                    hasEntered = true;
+                }
+
+                return hasEntered && (!state.IsName(animName) || state.normalizedTime >= 1f);
             });
 
             Debug.Log("tubeAnim", tubeAnim);
@@ -77,6 +87,7 @@ public class TankController : MonoBehaviour
         {
             if (!tubeAnim.GetBool("isTubeOn"))
             {
+                Debug.Log("Open");
                 tubeAnim.SetBool("isTubeOn", true);
             }
         }
@@ -84,6 +95,7 @@ public class TankController : MonoBehaviour
         {
             if (tubeAnim.GetBool("isTubeOn"))
             {
+                Debug.Log("CLose");
                 tubeAnim.SetBool("isTubeOn", false);
             }
         }

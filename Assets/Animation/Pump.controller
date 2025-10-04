@@ -197,7 +197,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Pump_Run
-  m_Speed: 1
+  m_Speed: 0.7
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3623047731954619612}
@@ -210,7 +210,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5fdbc4c52c2724ae6959b684d206a098, type: 2}
+  m_Motion: {fileID: 7400000, guid: 77a87165c58e547189ef04257a59dfe6, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
